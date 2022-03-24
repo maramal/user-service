@@ -1,0 +1,374 @@
+basePath: /api/
+definitions:
+  gin.H:
+    additionalProperties: true
+    type: object
+  handlers.loginUserRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handlers.loginUserResponse:
+    properties:
+      access_token:
+        type: string
+      access_token_expires_at:
+        type: string
+      refresh_token:
+        type: string
+      refresh_token_expires_at:
+        type: string
+      session_id:
+        type: string
+      user:
+        $ref: '#/definitions/handlers.userResponse'
+    type: object
+  handlers.userResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password_changed_at:
+        type: string
+      profile_image:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      password_changed_at:
+        type: string
+      profile_image:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  services.ChangePasswordRequest:
+    properties:
+      password:
+        type: string
+      password_confirmation:
+        type: string
+    type: object
+  services.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      profile_image:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+  services.GetUsersResponse:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  services.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      profile_image:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: soporte@nibiru.com.uy
+    name: Nibiruuy
+    url: https://nibiru.com.uy
+  description: API para el manejo de usuarios y autenticación
+  title: API de usuarios
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      operationId: login-user
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: loginUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.loginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Respuesta del login
+          schema:
+            $ref: '#/definitions/handlers.loginUserResponse'
+        "400":
+          description: Error en la solicitud
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Ingresa un usuario
+  /users:
+    get:
+      operationId: get-users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.GetUsersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/services.GetUsersResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Obtiene todos los usuarios
+    post:
+      consumes:
+      - application/json
+      operationId: create-user
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: CreateUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Crea un usuario
+  /users/{id}:
+    delete:
+      operationId: delete-user
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Elimina un usuario
+    get:
+      operationId: get-user
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Obtiene un usuario
+    put:
+      consumes:
+      - application/json
+      operationId: update-user
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del usuario
+        in: body
+        name: UpdateUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/services.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Actualiza un usuario
+  /users/{id}/password:
+    put:
+      consumes:
+      - application/json
+      operationId: change-password
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Datos del usuario
+        in: body
+        name: ChangePasswordRequest
+        required: true
+        schema:
+          $ref: '#/definitions/services.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Cambia la contraseña de un usuario
+  /users/{id}/set-super-admin:
+    post:
+      operationId: set-super-admin
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Configura un usuario como super administrador
+  /users/{id}/unset-super-admin:
+    post:
+      operationId: unset-super-admin
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Configura un super administrador como usuario
+  /users/email/{email}:
+    get:
+      operationId: get-user-by-email
+      parameters:
+      - description: Correo electrónico del usuario
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - ApiKeyAuth: []
+      summary: Obtiene un usuario por su correo electrónico
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

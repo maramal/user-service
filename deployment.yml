@@ -1,0 +1,41 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: userservice
+spec:
+  selector:
+    app: user-service
+  ports:
+    - protocol: "TCP"
+      # Puerto accesible dentro del cluster
+      port: 8080
+      # Puerto accesible dentro del pod
+      targetPort: 80
+      # Puerto accesible fuera del cluster
+      nodePort: 30001
+  type: LoadBalancer
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service-db
+          image: user-service-db
+          environment:
+            MYSQL_ROOT_PASSWORD: nibiru123
+          ports:
+            - containerPort: 3306
+        - name: user-service
+          image: user-service
+          ports:
+            - containerPort: 80
