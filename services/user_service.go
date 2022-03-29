@@ -86,7 +86,7 @@ func (service *UserService) GetUsers() (response GetUsersResponse, err error) {
 		return
 	}
 
-	if err = cursor.Decode(&users); err != nil {
+	if err = cursor.All(ctx, &users); err != nil {
 		return
 	}
 
@@ -141,7 +141,7 @@ func (service *UserService) CreateUser(req CreateUserRequest) (response CreateUs
 		return
 	}
 
-	response.UserID = result.InsertedID.(string)
+	response.UserID = result.InsertedID.(primitive.ObjectID).Hex()
 	return
 }
 
@@ -370,12 +370,9 @@ func (service *UserService) GetUserByEmail(email string) (response GetUserRespon
 	var user models.User
 
 	filter := bson.M{"email": email}
-	err = collection.FindOne(ctx, filter).Decode(&user)
-	if err != nil {
+	if err = collection.FindOne(ctx, filter).Decode(&user); err != nil {
 		return
 	}
-
-	user.Password = ""
 
 	response.User = user
 	return

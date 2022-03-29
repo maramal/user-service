@@ -18,9 +18,9 @@ import (
 //@version 1.0
 //@description API para el manejo de usuarios y autenticación
 //
-//@contact.name Nibiruuy
-//@contact.url https://nibiru.com.uy
-//@contact.email soporte@nibiru.com.uy
+//@contact.name Martin Fernandez
+//@contact.url https://mafer.dev
+//@contact.email maramal@outlook.com
 //
 //@host localhost:8080
 //@BasePath /api/

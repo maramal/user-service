@@ -1,27 +1,29 @@
 package database
 
 import (
-	"errors"
+	"context"
 
-	"github.com/upper/db/v4"
-	"github.com/upper/db/v4/adapter/mysql"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-/** Abre una conexión con la base de datos
+/** Establece conexión con la base de datos
  *
- * @param settings db.ConnectionURL "La configuración de la conexión"
- * @return db.Session "La sesión con la base de datos"
- * @return error "El error de conexión"
+ * @param ctx context.Context El contexto de la base de datos
+ * @param mongodbUri string La URI de conexión con la base de datos
+ * @return *mongo.Client El cliente de base de datos
+ * @return error El error al conectarse
  */
-func Open(settings db.ConnectionURL) (db.Session, error) {
-	db, err := mysql.Open(settings)
+func Open(ctx context.Context, mongoDBUri string) (*mongo.Client, error) {
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoDBUri))
 	if err != nil {
 		return nil, err
 	}
 
-	if db.Ping() != nil {
-		return nil, errors.New("error al conectar la base de datos")
+	err = client.Ping(ctx, nil)
+	if err != nil {
+		return nil, err
 	}
 
-	return db.WithContext(db.Context()), nil
+	return client, nil
 }

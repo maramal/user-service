@@ -1,5 +1,5 @@
 
-FROM golang:1.17
+FROM golang:1.18
 
 LABEL manteiner="Martin Fernandez <maramal@outlook.com>"
 
@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 ENV SESSION_SECRET_KEY="maramal-store-session-secret-key"
-ENV ACCESS_TOKEN_DURATION="15m"
+ENV ACCESS_TOKEN_DURATION="1h"
 ENV REFRESH_TOKEN_DURATION="24h"
 
 RUN go build

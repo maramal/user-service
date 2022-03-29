@@ -61,8 +61,9 @@ func (server *Server) handleLoginUser(userService services.IUserService, AuthSer
 		}
 
 		resp, err := userService.GetUserByEmail(req.Email)
+
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, utils.ErrorResponse(err))
+			ctx.JSON(http.StatusNotFound, utils.ErrorResponse(err))
 			return
 		}
 

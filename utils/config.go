@@ -13,6 +13,8 @@ type Config struct {
 	SecretKey            string        `mapstructure:"SESSION_SECRET_KEY"`
 	AccessTokenDuration  time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 	RefreshTokenDuration time.Duration `mapstructure:"REFRESH_TOKEN_DURATION"`
+	APMAppName           string        `mapstructure:"APM_APPNAME"`
+	APMLicense           string        `mapstructure:"APM_LICENSE"`
 }
 
 /** Lee la configuración del archivo o de las variables de entorno
