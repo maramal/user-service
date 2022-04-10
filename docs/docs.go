@@ -11,9 +11,9 @@ const docTemplate_swagger = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Nibiruuy",
-            "url": "https://nibiru.com.uy",
-            "email": "soporte@nibiru.com.uy"
+            "name": "Martin Fernandez",
+            "url": "https://mafer.dev",
+            "email": "maramal@outlook.com"
         },
         "version": "{{.Version}}"
     },
@@ -475,6 +475,9 @@ const docTemplate_swagger = `{
         "models.User": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -482,9 +485,6 @@ const docTemplate_swagger = `{
                     "type": "string"
                 },
                 "first_name": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 },
                 "last_name": {

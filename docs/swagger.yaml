@@ -46,13 +46,13 @@ definitions:
     type: object
   models.User:
     properties:
+      _id:
+        type: string
       created_at:
         type: string
       email:
         type: string
       first_name:
-        type: string
-      id:
         type: string
       last_name:
         type: string
@@ -118,9 +118,9 @@ definitions:
 host: localhost:8080
 info:
   contact:
-    email: soporte@nibiru.com.uy
-    name: Nibiruuy
-    url: https://nibiru.com.uy
+    email: maramal@outlook.com
+    name: Martin Fernandez
+    url: https://mafer.dev
   description: API para el manejo de usuarios y autenticación
   title: API de usuarios
   version: "1.0"

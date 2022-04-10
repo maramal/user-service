@@ -20,3 +20,6 @@ app.env
 
 # Logs
 *.log
+
+# Documentación
+docs

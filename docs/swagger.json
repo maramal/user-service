@@ -4,9 +4,9 @@
         "description": "API para el manejo de usuarios y autenticación",
         "title": "API de usuarios",
         "contact": {
-            "name": "Nibiruuy",
-            "url": "https://nibiru.com.uy",
-            "email": "soporte@nibiru.com.uy"
+            "name": "Martin Fernandez",
+            "url": "https://mafer.dev",
+            "email": "maramal@outlook.com"
         },
         "version": "1.0"
     },
@@ -468,6 +468,9 @@
         "models.User": {
             "type": "object",
             "properties": {
+                "_id": {
+                    "type": "string"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -475,9 +478,6 @@
                     "type": "string"
                 },
                 "first_name": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 },
                 "last_name": {
