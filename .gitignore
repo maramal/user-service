@@ -22,4 +22,4 @@ app.env
 *.log
 
 # Documentación
-docs
+docs/
