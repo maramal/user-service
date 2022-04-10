@@ -45,17 +45,20 @@ func NewServer(config utils.Config) (*Server, error) {
 		return nil, fmt.Errorf("Error al conectar con la base de datos: %s", utils.ErrorResponse(err))
 	}
 
-	app, err := configAPM(config)
-	if err != nil {
-		return nil, fmt.Errorf("Error al conectar la aplicación de monitorización: %s", utils.ErrorResponse(err))
-	}
-
 	server := &Server{
 		Config:     config,
 		TokenMaker: tokenMaker,
 		Client:     client,
 		Database:   client.Database("users-dev"),
-		APMApp:     app,
+	}
+
+	if config.APMAppName != "" && config.APMLicense != "" {
+		app, err := configAPM(config)
+		if err != nil {
+			return nil, fmt.Errorf("Error al conectar la aplicación de monitorización: %s", utils.ErrorResponse(err))
+		}
+
+		server.APMApp = app
 	}
 
 	server.setupRouter()
@@ -66,18 +69,16 @@ func NewServer(config utils.Config) (*Server, error) {
 func (server *Server) setupRouter() {
 	router := gin.New()
 
-	app, err := configAPM(server.Config)
-	if err != nil {
-		panic(err)
+	// Middlewares
+	if server.APMApp != nil {
+		router.Use(nrgin.Middleware(server.APMApp))
 	}
 
-	// Middlewares
 	router.Use(
 		gin.Recovery(),
 		middlewares.Logger(),
 		gindump.Dump(),
 		middlewares.CorsConfig(),
-		nrgin.Middleware(app),
 	)
 
 	// Documentación
