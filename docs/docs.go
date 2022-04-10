@@ -20,44 +20,7 @@ const docTemplate_swagger = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/login": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Ingresa un usuario",
-                "operationId": "login-user",
-                "parameters": [
-                    {
-                        "description": "Datos del usuario",
-                        "name": "loginUserRequest",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/handlers.loginUserRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Respuesta del login",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.loginUserResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Error en la solicitud",
-                        "schema": {
-                            "$ref": "#/definitions/gin.H"
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
+        "/admin/users": {
             "get": {
                 "security": [
                     {
@@ -125,7 +88,7 @@ const docTemplate_swagger = `{
                 }
             }
         },
-        "/users/email/{email}": {
+        "/admin/users/email/{email}": {
             "get": {
                 "security": [
                     {
@@ -162,7 +125,7 @@ const docTemplate_swagger = `{
                 }
             }
         },
-        "/users/{id}": {
+        "/admin/users/{id}": {
             "get": {
                 "security": [
                     {
@@ -176,7 +139,7 @@ const docTemplate_swagger = `{
                 "operationId": "get-user",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -214,7 +177,7 @@ const docTemplate_swagger = `{
                 "operationId": "update-user",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -258,7 +221,7 @@ const docTemplate_swagger = `{
                 "operationId": "delete-user",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -281,7 +244,7 @@ const docTemplate_swagger = `{
                 }
             }
         },
-        "/users/{id}/password": {
+        "/admin/users/{id}/password": {
             "put": {
                 "security": [
                     {
@@ -298,7 +261,7 @@ const docTemplate_swagger = `{
                 "operationId": "change-password",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -330,7 +293,7 @@ const docTemplate_swagger = `{
                 }
             }
         },
-        "/users/{id}/set-super-admin": {
+        "/admin/users/{id}/set-super-admin": {
             "post": {
                 "security": [
                     {
@@ -344,7 +307,7 @@ const docTemplate_swagger = `{
                 "operationId": "set-super-admin",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -367,7 +330,7 @@ const docTemplate_swagger = `{
                 }
             }
         },
-        "/users/{id}/unset-super-admin": {
+        "/admin/users/{id}/unset-super-admin": {
             "post": {
                 "security": [
                     {
@@ -381,7 +344,7 @@ const docTemplate_swagger = `{
                 "operationId": "unset-super-admin",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "ID del usuario",
                         "name": "id",
                         "in": "path",
@@ -397,6 +360,43 @@ const docTemplate_swagger = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Ingresa un usuario",
+                "operationId": "login-user",
+                "parameters": [
+                    {
+                        "description": "Datos del usuario",
+                        "name": "loginUserRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.loginUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Respuesta del login",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.loginUserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la solicitud",
                         "schema": {
                             "$ref": "#/definitions/gin.H"
                         }

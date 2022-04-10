@@ -15,7 +15,7 @@ import (
 // @Security ApiKeyAuth
 // @Success 200 {object} services.GetUsersResponse
 // @Failure 400 {object} services.GetUsersResponse
-// @Router 	/users [get]
+// @Router 	/admin/users [get]
 func handleGetUsers(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		users, err := service.GetUsers()
@@ -36,7 +36,7 @@ func handleGetUsers(service services.IUserService) gin.HandlerFunc {
 // @Param   CreateUserRequest body services.CreateUserRequest true "Datos del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users [post]
+// @Router 	/admin/users [post]
 func handleCreateUser(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req services.CreateUserRequest
@@ -59,10 +59,10 @@ func handleCreateUser(service services.IUserService) gin.HandlerFunc {
 // @ID 		get-user
 // @Produce json
 // @Security ApiKeyAuth
-// @Param 	id path int true "ID del usuario"
+// @Param 	id path string true "ID del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id} [get]
+// @Router 	/admin/users/{id} [get]
 func handleGetUser(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Param("id")
@@ -86,11 +86,11 @@ func handleGetUser(service services.IUserService) gin.HandlerFunc {
 // @Accept 	json
 // @Produce json
 // @Security ApiKeyAuth
-// @Param   id 					path int 						true "ID del usuario"
+// @Param   id 					path string						true "ID del usuario"
 // @Param 	UpdateUserRequest 	body services.UpdateUserRequest true "Datos del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id} [put]
+// @Router 	/admin/users/{id} [put]
 func handleUpdateUser(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req services.UpdateUserRequest
@@ -119,10 +119,10 @@ func handleUpdateUser(service services.IUserService) gin.HandlerFunc {
 // @ID 		delete-user
 // @Produce json
 // @Security ApiKeyAuth
-// @Param 	id path int true "ID del usuario"
+// @Param 	id path string true "ID del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id} [delete]
+// @Router 	/admin/users/{id} [delete]
 func handleDeleteUser(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Param("id")
@@ -146,11 +146,11 @@ func handleDeleteUser(service services.IUserService) gin.HandlerFunc {
 // @Accept 	json
 // @Produce json
 // @Security ApiKeyAuth
-// @Param 	id						path int 							true "ID del usuario"
+// @Param 	id						path string							true "ID del usuario"
 // @Param 	ChangePasswordRequest	body services.ChangePasswordRequest true "Datos del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id}/password [put]
+// @Router 	/admin/users/{id}/password [put]
 func handleChangePassword(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req services.ChangePasswordRequest
@@ -179,10 +179,10 @@ func handleChangePassword(service services.IUserService) gin.HandlerFunc {
 // @ID 		set-super-admin
 // @Produce json
 // @Security ApiKeyAuth
-// @Param 	id path int true "ID del usuario"
+// @Param 	id path string true "ID del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id}/set-super-admin [post]
+// @Router 	/admin/users/{id}/set-super-admin [post]
 func handleSetSuperadmin(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Param("id")
@@ -205,10 +205,10 @@ func handleSetSuperadmin(service services.IUserService) gin.HandlerFunc {
 // @ID 		unset-super-admin
 // @Produce json
 // @Security ApiKeyAuth
-// @Param 	id path int true "ID del usuario"
+// @Param 	id path string true "ID del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/{id}/unset-super-admin [post]
+// @Router 	/admin/users/{id}/unset-super-admin [post]
 func handleUnsetSuperadmin(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Param("id")
@@ -234,7 +234,7 @@ func handleUnsetSuperadmin(service services.IUserService) gin.HandlerFunc {
 // @Param 	email path string true "Correo electrónico del usuario"
 // @Success 200 {object} gin.H
 // @Failure 400 {object} gin.H
-// @Router 	/users/email/{email} [get]
+// @Router 	/admin/users/email/{email} [get]
 func handleGetUserByEmail(service services.IUserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		email := ctx.Param("email")

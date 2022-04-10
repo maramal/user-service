@@ -125,31 +125,7 @@ info:
   title: API de usuarios
   version: "1.0"
 paths:
-  /login:
-    post:
-      consumes:
-      - application/json
-      operationId: login-user
-      parameters:
-      - description: Datos del usuario
-        in: body
-        name: loginUserRequest
-        required: true
-        schema:
-          $ref: '#/definitions/handlers.loginUserRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Respuesta del login
-          schema:
-            $ref: '#/definitions/handlers.loginUserResponse'
-        "400":
-          description: Error en la solicitud
-          schema:
-            $ref: '#/definitions/gin.H'
-      summary: Ingresa un usuario
-  /users:
+  /admin/users:
     get:
       operationId: get-users
       produces:
@@ -191,7 +167,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Crea un usuario
-  /users/{id}:
+  /admin/users/{id}:
     delete:
       operationId: delete-user
       parameters:
@@ -199,7 +175,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -221,7 +197,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -245,7 +221,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: Datos del usuario
         in: body
         name: UpdateUserRequest
@@ -266,7 +242,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Actualiza un usuario
-  /users/{id}/password:
+  /admin/users/{id}/password:
     put:
       consumes:
       - application/json
@@ -276,7 +252,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: Datos del usuario
         in: body
         name: ChangePasswordRequest
@@ -297,7 +273,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Cambia la contraseña de un usuario
-  /users/{id}/set-super-admin:
+  /admin/users/{id}/set-super-admin:
     post:
       operationId: set-super-admin
       parameters:
@@ -305,7 +281,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -320,7 +296,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Configura un usuario como super administrador
-  /users/{id}/unset-super-admin:
+  /admin/users/{id}/unset-super-admin:
     post:
       operationId: unset-super-admin
       parameters:
@@ -328,7 +304,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -343,7 +319,7 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Configura un super administrador como usuario
-  /users/email/{email}:
+  /admin/users/email/{email}:
     get:
       operationId: get-user-by-email
       parameters:
@@ -366,6 +342,30 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Obtiene un usuario por su correo electrónico
+  /login:
+    post:
+      consumes:
+      - application/json
+      operationId: login-user
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: loginUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.loginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Respuesta del login
+          schema:
+            $ref: '#/definitions/handlers.loginUserResponse'
+        "400":
+          description: Error en la solicitud
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Ingresa un usuario
 securityDefinitions:
   ApiKeyAuth:
     in: header

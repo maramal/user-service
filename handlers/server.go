@@ -89,9 +89,14 @@ func (server *Server) setupRouter() {
 
 	// Rutas API
 	apiRouter := router.Group("/api")
+	adminRouter := apiRouter.Group("/admin")
+	authRouter := apiRouter.Group("/")
+
+	adminRouter.Use(middlewares.AuthMiddleware(server.TokenMaker)).Use(middlewares.AdminMiddleware())
+	authRouter.Use(middlewares.AuthMiddleware(server.TokenMaker))
 
 	// Usuarios
-	userRoutes := apiRouter.Group("/users").Use(middlewares.AuthMiddleware(server.TokenMaker))
+	userRoutes := adminRouter.Group("/users")
 	newUserHandler(userRoutes, userService)
 
 	// Autenticación
